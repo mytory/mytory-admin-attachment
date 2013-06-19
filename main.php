@@ -134,8 +134,10 @@ function mytory_attachment_save( $post_id ) {
     }
 
     // 첨부파일 삭제
-    foreach ($_POST['delete_mytory_attachment'] as $attach_id) {
-        wp_delete_attachment($attach_id);
+    if(isset($_POST['delete_mytory_attachment'])){
+        foreach ($_POST['delete_mytory_attachment'] as $attach_id) {
+            wp_delete_attachment($attach_id);
+        }    
     }
 }
 
