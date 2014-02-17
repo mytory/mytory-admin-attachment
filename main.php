@@ -178,7 +178,6 @@ function mytory_attachment_insert($files, $post_id){
             require_once(ABSPATH . 'wp-admin/includes/image.php');
             $attach_data = wp_generate_attachment_metadata( $attach_id, $첨부파일정보['file'] );
             wp_update_attachment_metadata( $attach_id, $attach_data );
-            printr($attach_data);
         }
 //        add_post_meta($post_id, 'mytory_admin_attachment_id', $attach_id);
     }
