@@ -111,7 +111,7 @@ function mytory_attachment_metabox_inner( $post ) {
 function mytory_attachment_save( $post_id ) {
     header('Content-Type: text/html; charset=utf-8');
 
-    if ( 'page' == $_POST['post_type'] ) {
+    if (isset($_POST['post_type']) && 'page' == $_POST['post_type'] ) {
         if ( ! current_user_can( 'edit_page', $post_id ) )
             return;
     } else {
