@@ -164,22 +164,22 @@ function mytory_attachment_insert($files, $post_id){
         );
         $첨부파일정보 = wp_handle_upload($filedata, array('test_form' => FALSE ));
 
-        $attachment = array(
-            'guid' => $첨부파일정보['url'],
-            'post_mime_type' => $첨부파일정보['type'],
-            'post_title' => $original_name,
-            'post_content' => '',
-            'post_status' => 'inherit',
-        );
+        if(isset($첨부파일정보['url']) && isset($첨부파일정보['type']) && isset($첨부파일정보['file'])){
+            $attachment = array(
+                'guid' => $첨부파일정보['url'],
+                'post_mime_type' => $첨부파일정보['type'],
+                'post_title' => $original_name,
+                'post_content' => '',
+                'post_status' => 'inherit',
+            );
+            $attach_id = wp_insert_attachment( $attachment, $첨부파일정보['file'], $post_id);
 
-        $attach_id = wp_insert_attachment( $attachment, $첨부파일정보['file'], $post_id);
-
-        if(strstr($filedata['type'], 'image')){
-            require_once(ABSPATH . 'wp-admin/includes/image.php');
-            $attach_data = wp_generate_attachment_metadata( $attach_id, $첨부파일정보['file'] );
-            wp_update_attachment_metadata( $attach_id, $attach_data );
+            if(strstr($filedata['type'], 'image')){
+                require_once(ABSPATH . 'wp-admin/includes/image.php');
+                $attach_data = wp_generate_attachment_metadata( $attach_id, $첨부파일정보['file'] );
+                wp_update_attachment_metadata( $attach_id, $attach_data );
+            }
         }
-//        add_post_meta($post_id, 'mytory_admin_attachment_id', $attach_id);
     }
 }
 
