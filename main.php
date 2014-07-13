@@ -123,10 +123,6 @@ function mytory_attachment_save( $post_id ) {
         return;
     }
 
-//    echo var_dump(empty($_FILES['mytory_attachment']['name'][0]));
-//    echo var_dump(empty($_FILES['mytory_attachment_change']['name'][0]));
-//    printr2($_FILES);
-
     // 첨부파일 등록
     if( ! empty($_FILES['mytory_attachment']['name'][0])){
         mytory_attachment_insert($_FILES['mytory_attachment'], $post_id);
@@ -148,8 +144,6 @@ function mytory_attachment_save( $post_id ) {
 //===== 각종 함수 =====
 
 function mytory_attachment_insert($files, $post_id){
-    $post_id = wp_get_post_parent_id($post_id);
-    $wp_upload_dir = wp_upload_dir();
     foreach ($files['tmp_name'] as $key => $tmp_name) {
         if(empty($tmp_name)){
             continue;
@@ -171,6 +165,7 @@ function mytory_attachment_insert($files, $post_id){
                 'post_title' => $original_name,
                 'post_content' => '',
                 'post_status' => 'inherit',
+                'post_parent' => $post_id
             );
             $attach_id = wp_insert_attachment( $attachment, $첨부파일정보['file'], $post_id);
 
