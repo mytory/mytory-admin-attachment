@@ -181,6 +181,7 @@ function mytory_attachment_insert($files, $post_id){
 /**
  * 첨부파일 교체 함수
  * @param $change_files $_FILES['mytory_attachment_change']
+ * @param $post_id
  * @param $change_attach_ids $_POST['mytory_attchment_change_original_ids']
  */
 function mytory_attachment_change($change_files, $post_id, $change_attach_ids){
