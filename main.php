@@ -234,9 +234,9 @@ function mytory_attachment_list($post_id = NULL){
     if(count($attachments) > 0){?>
         <div class="ma-list" style="margin-bottom: 20px;">
             첨부파일 :
-                <? foreach ($attachments as $attachment) { ?>
-                    <span class="ma-list__span" style="margin-right: 20px"><a class="ma-list__a" href="<?=wp_get_attachment_url($attachment->ID)?>"><?=$attachment->post_title?></a></span>
-                <?}?>
+            <? foreach ($attachments as $attachment) { ?>
+                <span class="ma-list__span" style="margin-right: 20px"><a class="ma-list__a" href="<?=wp_get_attachment_url($attachment->ID)?>"><?=$attachment->post_title?></a></span>
+            <?}?>
         </div>
     <?}?>
 <?
