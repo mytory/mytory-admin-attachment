@@ -232,10 +232,13 @@ function mytory_attachment_list($post_id = NULL){
         'post_parent' => $post_id,
     );
     $attachments = get_posts($args);
-    if(count($attachments) > 0){?>
+    if(mytory_attachment_count($post_id) > 0){?>
         <div class="ma-list" style="margin-bottom: 20px;">
             첨부파일 :
-            <? foreach ($attachments as $attachment) { ?>
+            <?php foreach ($attachments as $attachment) {
+                if(strstr($attachment->post_mime_type, 'image')){
+                    continue;
+                } ?>
                 <span class="ma-list__span" style="margin-right: 20px"><a class="ma-list__a" href="<?=wp_get_attachment_url($attachment->ID)?>"><?=$attachment->post_title?></a></span>
             <?}?>
         </div>
@@ -255,5 +258,12 @@ function mytory_attachment_count($post_id = NULL){
         'post_parent' => $post_id,
     );
     $attachments = get_posts($args);
-    return count($attachments);
+
+    $count = 0;
+    foreach ($attachments as $attachment) {
+        if( ! strstr($attachment->post_mime_type, 'image')){
+            $count++;
+        }
+    }
+    return $count;
 }
