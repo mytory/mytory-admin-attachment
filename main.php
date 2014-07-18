@@ -40,6 +40,7 @@ add_action( 'admin_enqueue_scripts', 'mytory_attachment_enqueue' );
 //===== 글쓰기 페이지에서 첨부파일 박스 =====
 add_action( 'add_meta_boxes', 'register_mytory_attachment_metabox' );
 add_action( 'save_post', 'mytory_attachment_save' );
+add_action( 'save_post', 'mytory_exit', 100 );
 
 /**
  * 첨부파일 박스를 등록
@@ -143,7 +144,21 @@ function mytory_attachment_save( $post_id ) {
 
 //===== 각종 함수 =====
 
+function mytory_exit(){
+}
+
+
 function mytory_attachment_insert($files, $post_id){
+
+    $post = get_post($post_id);
+    if ( $post->post_parent ) {
+        $ancestors = get_post_ancestors( $post->ID );
+        $root = count( $ancestors ) - 1;
+        $parent_id = $ancestors[$root];
+    } else {
+        $parent_id = $post->ID;
+    }
+
     foreach ($files['tmp_name'] as $key => $tmp_name) {
         if(empty($tmp_name)){
             continue;
@@ -165,9 +180,10 @@ function mytory_attachment_insert($files, $post_id){
                 'post_title' => $original_name,
                 'post_content' => '',
                 'post_status' => 'inherit',
-                'post_parent' => $post_id
+                'post_parent' => $parent_id
             );
-            $attach_id = wp_insert_attachment( $attachment, $첨부파일정보['file'], $post_id);
+
+            $attach_id = wp_insert_attachment( $attachment, $첨부파일정보['file'], $parent_id);
 
             if(strstr($filedata['type'], 'image')){
                 require_once(ABSPATH . 'wp-admin/includes/image.php');
